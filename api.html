@@ -2568,6 +2568,55 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    Utils
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils" class="md-nav__link">
+    utils
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.add_enum_label_columns" class="md-nav__link">
+    add_enum_label_columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.add_list_objects" class="md-nav__link">
+    add_list_objects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.extract_base_type" class="md-nav__link">
+    extract_base_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.military_to_clock" class="md-nav__link">
+    military_to_clock
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.nan_to_none" class="md-nav__link">
+    nan_to_none
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4801,6 +4850,55 @@
         <li class="md-nav__item">
   <a href="#data_model.enums.Type" class="md-nav__link">
     Type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    Utils
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils" class="md-nav__link">
+    utils
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.add_enum_label_columns" class="md-nav__link">
+    add_enum_label_columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.add_list_objects" class="md-nav__link">
+    add_list_objects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.extract_base_type" class="md-nav__link">
+    extract_base_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.military_to_clock" class="md-nav__link">
+    military_to_clock
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data_model.utils.nan_to_none" class="md-nav__link">
+    nan_to_none
   </a>
   
 </li>
@@ -18948,6 +19046,402 @@
 
 </div>
 
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="utils">Utils<a class="headerlink" href="#utils" title="Permanent link"> ¶</a></h2>
+<p>This section includes the Utility methods</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="data_model.utils"></a>
+    <div class="doc doc-contents first">
+
+        <p>Utility functions used with the data model.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="data_model.utils.add_enum_label_columns" class="doc doc-heading">
+            <code class=" language-python"><span class="n">add_enum_label_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span></code>
+
+<a href="#data_model.utils.add_enum_label_columns" class="headerlink" title="Permanent link"> ¶</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>After the datamodel output is converted into a dataframe, this method adds a column to the output dataframe for each Enum variable in the datamodel. This column 
+shows the Enum label.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>data_model/utils.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_enum_label_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    After the datamodel output is converted into a dataframe, this method adds a column to the output dataframe for each Enum variable in the datamodel. This column </span>
+<span class="sd">    shows the Enum label.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">field_type</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="vm">__annotations__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">base_type</span> <span class="o">=</span> <span class="n">extract_base_type</span><span class="p">(</span><span class="n">field_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">base_type</span><span class="p">,(</span><span class="n">Enum</span><span class="p">,</span><span class="n">IntEnum</span><span class="p">)):</span>
+            <span class="n">enum_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">base_type</span><span class="p">}</span>
+            <span class="n">enum_name_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">_label&quot;</span> 
+            <span class="n">df</span><span class="p">[</span><span class="n">enum_name_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">enum_names</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="data_model.utils.add_list_objects" class="doc doc-heading">
+            <code class=" language-python"><span class="n">add_list_objects</span><span class="p">(</span><span class="n">child_list</span><span class="p">,</span> <span class="n">child_key</span><span class="p">,</span> <span class="n">parent_list</span><span class="p">,</span> <span class="n">parent_key</span><span class="p">,</span> <span class="n">parent_variable</span><span class="p">)</span></code>
+
+<a href="#data_model.utils.add_list_objects" class="headerlink" title="Permanent link"> ¶</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Maps a list of child objects to a list of parent objects. The child objects
+are added to the parent objects as a list using the <code>parent_variable</code> as the
+key. The <code>child_key</code> is used to match the child to the parent using the
+<code>parent_key</code>.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>data_model/utils.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_list_objects</span><span class="p">(</span>
+    <span class="n">child_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">child_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">parent_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">parent_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">parent_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Maps a list of child objects to a list of parent objects. The child objects</span>
+<span class="sd">    are added to the parent objects as a list using the `parent_variable` as the</span>
+<span class="sd">    key. The `child_key` is used to match the child to the parent using the</span>
+<span class="sd">    `parent_key`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parent_to_child_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">child_list</span><span class="p">:</span>
+        <span class="n">temp_key</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="n">child_key</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">child</span><span class="p">[</span><span class="n">child_key</span><span class="p">]</span>
+        <span class="n">parent_to_child_map</span><span class="p">[</span><span class="n">temp_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
+
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parent_list</span><span class="p">:</span>
+        <span class="n">temp_key</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">parent_key</span><span class="p">]</span>
+        <span class="n">parent</span><span class="p">[</span><span class="n">parent_variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_to_child_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">temp_key</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">return</span> <span class="n">parent_list</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="data_model.utils.extract_base_type" class="doc doc-heading">
+            <code class=" language-python"><span class="n">extract_base_type</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span></code>
+
+<a href="#data_model.utils.extract_base_type" class="headerlink" title="Permanent link"> ¶</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Extracts base type from complex annotations. This is needed to identify whether a variable 
+is an Enum. Without this step, the origin of all the variables in the model is Annotated, even the variable is an Enum</p>
+
+            <details class="quote">
+              <summary>Source code in <code>data_model/utils.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_base_type</span><span class="p">(</span><span class="n">typ</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts base type from complex annotations. This is needed to identify whether a variable </span>
+<span class="sd">    is an Enum. Without this step, the origin of all the variables in the model is Annotated, even the variable is an Enum</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">get_origin</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Enum</span><span class="p">:</span>      
+        <span class="n">base</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">base</span><span class="p">:</span>
+           <span class="n">base</span> <span class="o">=</span> <span class="n">extract_base_type</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+           <span class="k">return</span> <span class="n">base</span>
+    <span class="k">return</span> <span class="n">typ</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="data_model.utils.military_to_clock" class="doc doc-heading">
+            <code class=" language-python"><span class="n">military_to_clock</span><span class="p">(</span><span class="n">military_time</span><span class="p">)</span></code>
+
+<a href="#data_model.utils.military_to_clock" class="headerlink" title="Permanent link"> ¶</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Converts a military time string (HHMM) to a 12-hour clock format string (hh:mm AM/PM).</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>military_time</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A string representing time in 24-hour format (e.g., &ldquo;0600&rdquo;).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A string representing time in 12-hour clock format (e.g., &ldquo;6:00 AM&rdquo;).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>ValueError</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the input string is not in the correct format (HHMM).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>data_model/utils.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">military_to_clock</span><span class="p">(</span><span class="n">military_time</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a military time string (HHMM) to a 12-hour clock format string (hh:mm AM/PM).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        military_time: A string representing time in 24-hour format (e.g., &quot;0600&quot;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A string representing time in 12-hour clock format (e.g., &quot;6:00 AM&quot;).</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the input string is not in the correct format (HHMM).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">military_time</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">military_time</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid military time format. Please use HHMM format (e.g., 0600).&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">military_time</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">minutes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">military_time</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+
+    <span class="c1"># Convert to 12-hour format</span>
+    <span class="k">if</span> <span class="n">hours</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">clock_hours</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="s2">&quot;am&quot;</span>
+    <span class="k">elif</span> <span class="n">hours</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="n">clock_hours</span> <span class="o">=</span> <span class="n">hours</span> <span class="o">-</span> <span class="mi">12</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="s2">&quot;pm&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">clock_hours</span> <span class="o">=</span> <span class="n">hours</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="s2">&quot;am&quot;</span>
+
+    <span class="c1"># Format the output string</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">clock_hours</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">minutes</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="data_model.utils.nan_to_none" class="doc doc-heading">
+            <code class=" language-python"><span class="n">nan_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+
+<a href="#data_model.utils.nan_to_none" class="headerlink" title="Permanent link"> ¶</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert nan to none to address that missing strings were being read as nan, which resulted in a value error when using using Optional[str]</p>
+
+            <details class="quote">
+              <summary>Source code in <code>data_model/utils.py</code></summary>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">nan_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert nan to none to address that missing strings were being read as nan, which resulted in a value error when using using Optional[str]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">value</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
