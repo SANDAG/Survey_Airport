@@ -1809,6 +1809,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#data_model.data_model.Respondent.weight" class="md-nav__link">
+    weight
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4151,6 +4158,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#data_model.data_model.Respondent.weight" class="md-nav__link">
+    weight
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5089,15 +5103,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>data_model/data_model.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1240</span>
-<span class="normal">1241</span>
-<span class="normal">1242</span>
-<span class="normal">1243</span>
-<span class="normal">1244</span>
-<span class="normal">1245</span>
-<span class="normal">1246</span>
-<span class="normal">1247</span>
-<span class="normal">1248</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1248</span>
 <span class="normal">1249</span>
 <span class="normal">1250</span>
 <span class="normal">1251</span>
@@ -5940,7 +5946,15 @@
 <span class="normal">2088</span>
 <span class="normal">2089</span>
 <span class="normal">2090</span>
-<span class="normal">2091</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
+<span class="normal">2091</span>
+<span class="normal">2092</span>
+<span class="normal">2093</span>
+<span class="normal">2094</span>
+<span class="normal">2095</span>
+<span class="normal">2096</span>
+<span class="normal">2097</span>
+<span class="normal">2098</span>
+<span class="normal">2099</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for an air passenger respondent. It includes attributes specific to air passengers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -9299,15 +9313,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>data_model/data_model.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 952</span>
-<span class="normal"> 953</span>
-<span class="normal"> 954</span>
-<span class="normal"> 955</span>
-<span class="normal"> 956</span>
-<span class="normal"> 957</span>
-<span class="normal"> 958</span>
-<span class="normal"> 959</span>
-<span class="normal"> 960</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 960</span>
 <span class="normal"> 961</span>
 <span class="normal"> 962</span>
 <span class="normal"> 963</span>
@@ -9584,7 +9590,15 @@
 <span class="normal">1234</span>
 <span class="normal">1235</span>
 <span class="normal">1236</span>
-<span class="normal">1237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
+<span class="normal">1237</span>
+<span class="normal">1238</span>
+<span class="normal">1239</span>
+<span class="normal">1240</span>
+<span class="normal">1241</span>
+<span class="normal">1242</span>
+<span class="normal">1243</span>
+<span class="normal">1244</span>
+<span class="normal">1245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for an employee respondent. It includes attributes specific to employees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11306,7 +11320,15 @@
 <span class="normal">947</span>
 <span class="normal">948</span>
 <span class="normal">949</span>
-<span class="normal">950</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Respondent</span><span class="p">(</span><span class="n">PydanticModel</span><span class="p">):</span>
+<span class="normal">950</span>
+<span class="normal">951</span>
+<span class="normal">952</span>
+<span class="normal">953</span>
+<span class="normal">954</span>
+<span class="normal">955</span>
+<span class="normal">956</span>
+<span class="normal">957</span>
+<span class="normal">958</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Respondent</span><span class="p">(</span><span class="n">PydanticModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for a survey respondent. It includes attributes common to air passengers and employees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11317,6 +11339,13 @@
 <span class="sd">    Unique identifier for the respondent.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">is_completed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;True if the record is complete&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    True if the record is complete</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">record_type_synthetic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span>  <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;True if the record is synthetically generated&quot;</span>
     <span class="p">)</span>
@@ -11324,12 +11353,6 @@
 <span class="sd">    True if the record is synthetically generated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">is_completed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;True if the record is complete&quot;</span>
-    <span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    True if the record is complete</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">date_completed</span><span class="p">:</span> <span class="n">NoneOrNanString</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Date and time when respondent completed the survey&quot;</span>
@@ -11650,6 +11673,13 @@
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Holds the severity of the validation error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Expansion Factor of the observation&#39;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expansion Factor of the observation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
@@ -12675,6 +12705,28 @@
     <div class="doc doc-contents ">
 
         <p>Holds the severity of the validation error</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="data_model.data_model.Respondent.weight" class="doc doc-heading">
+            <code class=" language-python"><span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Expansion Factor of the observation&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#data_model.data_model.Respondent.weight" class="headerlink" title="Permanent link"> ¶</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Expansion Factor of the observation</p>
     </div>
 
 </div>
