@@ -5954,7 +5954,13 @@
 <span class="normal">2096</span>
 <span class="normal">2097</span>
 <span class="normal">2098</span>
-<span class="normal">2099</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
+<span class="normal">2099</span>
+<span class="normal">2100</span>
+<span class="normal">2101</span>
+<span class="normal">2102</span>
+<span class="normal">2103</span>
+<span class="normal">2104</span>
+<span class="normal">2105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for an air passenger respondent. It includes attributes specific to air passengers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -6064,6 +6070,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Airport Terminal for Air Passenger</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">interview_location</span> <span class="o">==</span> <span class="n">e</span><span class="o">.</span><span class="n">InterviewLocation</span><span class="o">.</span><span class="n">TERMINAL_1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">Terminal</span><span class="o">.</span><span class="n">TERMINAL_1</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">interview_location</span> <span class="o">==</span> <span class="n">e</span><span class="o">.</span><span class="n">InterviewLocation</span><span class="o">.</span><span class="n">TERMINAL_2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">Terminal</span><span class="o">.</span><span class="n">TERMINAL_2</span>
+
+        <span class="c1">#Deriving using Airline if location is not a terminal</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">airline</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">14</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">Terminal</span><span class="o">.</span><span class="n">TERMINAL_2</span>
         <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">airline</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">]:</span>
