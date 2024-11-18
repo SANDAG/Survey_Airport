@@ -1600,6 +1600,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#data_model.data_model.Respondent.is_pilot" class="md-nav__link">
+    is_pilot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#data_model.data_model.Respondent.is_qualified_age" class="md-nav__link">
     is_qualified_age
   </a>
@@ -3949,6 +3956,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#data_model.data_model.Respondent.is_pilot" class="md-nav__link">
+    is_pilot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#data_model.data_model.Respondent.is_qualified_age" class="md-nav__link">
     is_qualified_age
   </a>
@@ -5103,14 +5117,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>data_model/data_model.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1248</span>
-<span class="normal">1249</span>
-<span class="normal">1250</span>
-<span class="normal">1251</span>
-<span class="normal">1252</span>
-<span class="normal">1253</span>
-<span class="normal">1254</span>
-<span class="normal">1255</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1255</span>
 <span class="normal">1256</span>
 <span class="normal">1257</span>
 <span class="normal">1258</span>
@@ -5960,7 +5967,14 @@
 <span class="normal">2102</span>
 <span class="normal">2103</span>
 <span class="normal">2104</span>
-<span class="normal">2105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
+<span class="normal">2105</span>
+<span class="normal">2106</span>
+<span class="normal">2107</span>
+<span class="normal">2108</span>
+<span class="normal">2109</span>
+<span class="normal">2110</span>
+<span class="normal">2111</span>
+<span class="normal">2112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AirPassenger</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for an air passenger respondent. It includes attributes specific to air passengers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -9325,14 +9339,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>data_model/data_model.py</code></summary>
-                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 960</span>
-<span class="normal"> 961</span>
-<span class="normal"> 962</span>
-<span class="normal"> 963</span>
-<span class="normal"> 964</span>
-<span class="normal"> 965</span>
-<span class="normal"> 966</span>
-<span class="normal"> 967</span>
+                <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 967</span>
 <span class="normal"> 968</span>
 <span class="normal"> 969</span>
 <span class="normal"> 970</span>
@@ -9610,7 +9617,14 @@
 <span class="normal">1242</span>
 <span class="normal">1243</span>
 <span class="normal">1244</span>
-<span class="normal">1245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
+<span class="normal">1245</span>
+<span class="normal">1246</span>
+<span class="normal">1247</span>
+<span class="normal">1248</span>
+<span class="normal">1249</span>
+<span class="normal">1250</span>
+<span class="normal">1251</span>
+<span class="normal">1252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Respondent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for an employee respondent. It includes attributes specific to employees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11340,7 +11354,14 @@
 <span class="normal">955</span>
 <span class="normal">956</span>
 <span class="normal">957</span>
-<span class="normal">958</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Respondent</span><span class="p">(</span><span class="n">PydanticModel</span><span class="p">):</span>
+<span class="normal">958</span>
+<span class="normal">959</span>
+<span class="normal">960</span>
+<span class="normal">961</span>
+<span class="normal">962</span>
+<span class="normal">963</span>
+<span class="normal">964</span>
+<span class="normal">965</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Respondent</span><span class="p">(</span><span class="n">PydanticModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data model for a survey respondent. It includes attributes common to air passengers and employees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11356,6 +11377,13 @@
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    True if the record is complete</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">is_pilot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;True if the record was collected during the pilot survey&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    True if the record was collected during the pilot survey</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">record_type_synthetic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span>  <span class="n">Field</span><span class="p">(</span>
@@ -12057,6 +12085,28 @@
     <div class="doc doc-contents ">
 
         <p>Is the respondent&rsquo;s household income below poverty?</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="data_model.data_model.Respondent.is_pilot" class="doc doc-heading">
+            <code class=" language-python"><span class="n">is_pilot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if the record was collected during the pilot survey&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#data_model.data_model.Respondent.is_pilot" class="headerlink" title="Permanent link"> ¶</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>True if the record was collected during the pilot survey</p>
     </div>
 
 </div>
