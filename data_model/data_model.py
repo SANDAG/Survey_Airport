@@ -801,11 +801,41 @@ class Respondent(PydanticModel):
     """
 
     weight: float = Field(
-        ..., description = 'Expansion Factor of the observation'
+        ..., description = 'Default expansion Factor of the observation, used in expansion script downstream'
     )
     """
-    Expansion Factor of the observation
+    Default expansion Factor of the observation, used in the expansion script downstream
     """
+
+    weight_departing_and_arriving: float = Field(
+        ..., description = 'Weights corresponding to arriving and departing passengers expansion (also includes synthetic records)'
+    )
+    """
+    Weights corresponding to arriving and departing expansion (also includes synthetic records)
+    """
+
+    weight_departing_only: float = Field(
+        ..., description = 'Weights corresponding to only departing passengers expansion (no synthetic/arriving passengers)'
+    )
+    """
+    Weights corresponding to only departing passengers expansion (no synthetic/arriving passengers)
+    """
+
+    weight_non_sas_departing_only: float = Field(
+        ..., description = 'Weights corresponding to only departing and intercept survey passengers expansion (no self-administered survey responses, or synthetic records)'
+    )
+    """
+    Weights corresponding to only departing and intercept survey passengers expansion (no self-administered survey responses or synthetic records)
+    """
+
+
+    weight_departing_only_with_time_of_day: float = Field(
+        ..., description = 'Weights corresponding to only departing passengers expansion including time-of-day controls (no synthetic/arriving passengers)'
+    )
+    """
+    Weights corresponding to only departing passengers expansion including time-of-day controls (no synthetic/arriving passengers)
+    """
+
     
     interview_location: NoneOrNan[e.InterviewLocation] = Field(
         ..., description = "Location where respondent was intercepted")
