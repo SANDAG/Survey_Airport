@@ -1,4 +1,4 @@
 airport_terminal,all,total_pax,tot_emp,pax_depart,pax_arrive,bus992_depart,bus992_arrive,flyer_depart,flyer_arrive
 1,0,0,0,14641,14394,0,0,0,0
 2,0,0,0,23244,22852,0,0,0,0
-ALL,1,75131,3000,0,0,628,672,185,198
+ALL,1,75131,3000,0,0,628,270,185,60
