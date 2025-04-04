@@ -65,6 +65,7 @@ class ResidentVisitorPurpose(IntEnum):
     RESIDENT_NON_BUSINESS = 2
     VISITOR_BUSINESS = 3
     VISITOR_NON_BUSINESS = 4
+    EMPLOYEE = 5
 
 
 class ResidentVisitorGeneral(IntEnum):

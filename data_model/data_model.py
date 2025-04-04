@@ -856,6 +856,13 @@ class Respondent(PydanticModel):
     Type of respondent, either passenger, employee, or other.
     """
 
+    resident_visitor_purpose: NoneOrNanString[e.ResidentVisitorPurpose] = Field(
+        ..., description = "Determines the resident/visitor classification based on the home airport status and flight purpose"
+    )
+    """
+    Determines the resident/visitor classification based on the home airport status and flight purpose
+    """
+
     is_qualified_age: NoneOrNanString[bool] = Field(
         ...,
         description="Whether the respondent is of a qualified age to participate in the survey",
@@ -1822,13 +1829,6 @@ class AirPassenger(Respondent):
     )
     """
     Other (not listed) purpose of the respondent's flight
-    """
-
-    resident_visitor_purpose: NoneOrNanString[e.ResidentVisitorPurpose] = Field(
-        ..., description = "Determines the resident/visitor classification based on the home airport status and flight purpose"
-    )
-    """
-    Determines the resident/visitor classification based on the home airport status and flight purpose
     """
 
 
