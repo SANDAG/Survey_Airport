@@ -1872,13 +1872,20 @@ class AirPassenger(Respondent):
     Number of nights the respondent will be visiting/away
     """
 
-
-    party_size_flight: NoneOrNanString[e.PartySize] = Field(
+    number_of_travel_companions: NoneOrNanString[e.PartySize] = Field(
         ..., description = "Number of people flying with the respondent (count excludes the respondent)"
     )
     """
     Number of people flying with the respondent (count excludes the respondent)
     """
+
+    party_size_flight: NoneOrNan[int] = Field(
+        ..., description = "Size of the travel party"
+    )
+    """
+    Size of the travel party
+    """
+
 
     party_size_ground_access_same: NoneOrNanString[bool] = Field(
         ..., description = "Whether flying party all traveled to airport together"
@@ -1887,11 +1894,11 @@ class AirPassenger(Respondent):
     Whether flying party all traveled to airport together
     """
 
-    party_size_ground_access: NoneOrNanString[e.PartySize] = Field(
-        ..., description = "Size of ground access travel party (count excludes the respondent)"
+    party_size_ground_access: NoneOrNan[int] = Field(
+        ..., description = "Size of ground access travel party"
     )
     """
-    Size of ground access travel party (count excludes the respondent)
+    Size of ground access travel party
     """
 
     party_includes_child_aged00to05: NoneOrNanString[bool] = Field(

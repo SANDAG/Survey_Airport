@@ -199,7 +199,6 @@ working_survey_df <- survey_df %>%
   filter(is_valid_record == "True") %>%
   mutate(count = 1) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
-  mutate(party_size_flight = party_size_flight + 1) %>% 
   mutate(airport_terminal = paste0(as.integer(airport_terminal)))
 
 if (departing_only) {

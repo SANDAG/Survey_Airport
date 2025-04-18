@@ -226,8 +226,9 @@ party_includes_child_aged06to17,delete
 party_includes_coworker,delete
 party_includes_friend_relative,delete
 party_includes_mobility_impaired,delete
+number_of_travel_companions,delete
+number_of_travel_companions_label,delete
 party_size_flight,keep
-party_size_flight_label,keep
 party_size_ground_access,keep
 party_size_ground_access_label,keep
 party_size_ground_access_same,delete
