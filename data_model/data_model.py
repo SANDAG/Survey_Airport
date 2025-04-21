@@ -205,11 +205,11 @@ class Trip(PydanticModel):
     Place name of the origin of the trip to the airport.
     """
 
-    origin_city: NoneOrNanString[str] = Field(
-        ..., description="City of the origin address for the trip to the airport"
+    origin_place_name: NoneOrNanString[str] = Field(
+        ..., description="Postal City of the origin address for the trip to the airport"
     )
     """
-    City of the origin address for the trip to the airport.
+    Postal City of the origin address for the trip to the airport.
     """
 
     origin_state: NoneOrNanString[str] = Field(
@@ -290,11 +290,11 @@ class Trip(PydanticModel):
     Place name of the destination from the airport.
     """
 
-    destination_city: NoneOrNanString[str] = Field(
-        ..., description="City of the destination address from the airport"
+    destination_place_name: NoneOrNanString[str] = Field(
+        ..., description="Postal City of the destination address from the airport"
     )
     """
-    City of the destination address from the airport.
+    Postal City of the destination address from the airport.
     """
 
     destination_state: NoneOrNanString[str] = Field(
@@ -879,11 +879,11 @@ class Respondent(PydanticModel):
     Where the respondent resides in the airport service area most of the year.
     """
 
-    home_location_city: NoneOrNanString[str] =  Field(
-        ..., description = "City of the home location of the respondent"
+    home_location_place_name: NoneOrNanString[str] =  Field(
+        ..., description = "Postal City of the home location of the respondent"
     )
     """
-    City of the home location of the respondent
+    Postal City of the home location of the respondent
     """
 
     home_location_state: NoneOrNanString[str] =  Field(

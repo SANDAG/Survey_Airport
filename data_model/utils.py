@@ -246,7 +246,7 @@ def add_synthetic_records(df) -> pd.DataFrame:
            
            #Location Attributes
             synthetic_record['origin_state'], synthetic_record['destination_state'] = row['destination_state'], row['origin_state']
-            synthetic_record['origin_city'], synthetic_record['destination_city'] = row['destination_city'], row['origin_city']
+            synthetic_record['origin_place_name'], synthetic_record['destination_place_name'] = row['destination_place_name'], row['origin_place_name']
             synthetic_record['origin_zip'], synthetic_record['destination_zip'] = row['destination_zip'], row['origin_zip']
 
             synthetic_record['origin_latitude'], synthetic_record['destination_latitude'] = row['destination_latitude'], row['origin_latitude']

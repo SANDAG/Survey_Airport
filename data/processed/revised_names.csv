@@ -89,7 +89,7 @@ ORIGIN_PLACE_TYPE_Code_,origin_activity_type
 ORIGIN_PLACE_TYPE,origin_activity_type_label
 ORIGIN_PLACE_TYPE_Other_,origin_activity_type_other
 ORIGIN_NAME,origin_name
-ORIGIN_ADDRESS_CITY_,origin_city
+ORIGIN_ADDRESS_CITY_,origin_place_name
 ORIGIN_ADDRESS_STATE_,origin_state
 ORIGIN_ADDRESS_ZIP_,origin_zip
 ORIGIN_ADDRESS_LAT_,origin_latitude
@@ -98,7 +98,7 @@ DESTIN_PLACE_TYPE_Code_,destination_activity_type
 DESTIN_PLACE_TYPE,destination_activity_type_label
 DESTIN_PLACE_TYPE_Other_,destination_activity_type_other
 DESTIN_NAME,destination_name
-DESTIN_ADDRESS_CITY_,destination_city
+DESTIN_ADDRESS_CITY_,destination_place_name
 DESTIN_ADDRESS_STATE_,destination_state
 DESTIN_ADDRESS_ZIP_,destination_zip
 DESTIN_ADDRESS_LAT_,destination_latitude
@@ -293,7 +293,7 @@ AIR_ACCESS_TRANSIT_2_Code_,airport_access_transit_use_elsewhere
 AIR_ACCESS_TRANSIT_2,airport_access_transit_use_elsewhere_label
 AIR_ACCESS_NAME,airportaccesstransitname
 HOME_ADDRESS_ADDR_,delete
-HOME_ADDRESS_CITY_,home_location_city
+HOME_ADDRESS_CITY_,home_location_place_name
 HOME_ADDRESS_STATE_,home_location_state
 HOME_ADDRESS_ZIP_,home_location_zip
 HOME_ADDRESS_LAT_,home_location_latitude
@@ -388,12 +388,12 @@ GEN_MODES_VISITOR_Other_,general_modes_used_visitor_other
 ALT_COMMUTE_MODES_Other_,alt_commute_mode_other
 TERMINAL_Code_,interview_location
 TERMINAL,interview_location_label
-ORIGIN_ADDRESS [CITY],origin_city
+ORIGIN_ADDRESS [CITY],origin_place_name
 ORIGIN_ADDRESS [STATE],origin_state
 ORIGIN_ADDRESS [ZIP],origin_zip
 ORIGIN_ADDRESS [LAT],origin_latitude
 ORIGIN_ADDRESS [LONG],origin_longitude
-DESTIN_ADDRESS [CITY],destination_city
+DESTIN_ADDRESS [CITY],destination_place_name
 DESTIN_ADDRESS [STATE],destination_state
 DESTIN_ADDRESS [ZIP],destination_zip
 DESTIN_ADDRESS [LAT],destination_latitude

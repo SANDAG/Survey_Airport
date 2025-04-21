@@ -65,7 +65,7 @@ country_of_residence_label,keep
 destination_activity_type,keep
 destination_activity_type_label,keep
 destination_activity_type_other,keep
-destination_city,keep
+destination_place_name,keep
 destination_latitude,keep
 destination_longitude,keep
 destination_municipal_zone,keep
@@ -134,7 +134,7 @@ general_use_transit_resident,delete
 general_use_transit_resident_label,delete
 general_use_transit_visitor_home,delete
 general_use_transit_visitor_home_label,delete
-home_location_city,keep
+home_location_place_name,keep
 home_location_latitude,keep
 home_location_longitude,keep
 home_location_municipal_zone,keep
@@ -198,7 +198,7 @@ occupation_other,keep
 origin_activity_type,keep
 origin_activity_type_label,keep
 origin_activity_type_other,keep
-origin_city,keep
+origin_place_name,keep
 origin_latitude,keep
 origin_longitude,keep
 origin_municipal_zone,keep
