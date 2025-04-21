@@ -800,6 +800,28 @@ class Respondent(PydanticModel):
     True if the record is to be used for submittal
     """
 
+
+    @computed_field(
+        return_type = bool,
+        description = "True if the record was captured during Thanksgiving Week",
+    )
+    @property
+    def thanksgiving_week_flag(cls):
+        """
+        True if the record was captured during Thanksgiving Week
+        """
+
+        thanksgiving_start = pd.Timestamp('2024-11-25')  # Monday
+        thanksgiving_end = pd.Timestamp('2024-12-01')    # Sunday
+        if cls.date_completed is None or pd.isna(cls.date_completed):
+            return False  # or handle as needed
+        if thanksgiving_start <= cls.date_completed <= thanksgiving_end:
+            return True
+        else:
+            return False
+        
+
+
     weight: float = Field(
         ..., description = 'Default expansion Factor of the observation, used in expansion script downstream'
     )
