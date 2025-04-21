@@ -104,24 +104,29 @@ config_file <- paste0(interim_dir, "expansion_config_departing_and_arriving.yaml
 Please also note that the working directory is set in the code to be the procedures robust against different type of execution types (e.g., running line by line, "knitting" to create an HTML record of the script). Users will need to adjust the working directory prior to executing the code locally. 
 
 The script generates numerous diagnostic data, as well as a `csv` file that contains the expansion weight for each record, with a separate file for each expansion approach. 
-### 3. `/notebooks/03-merge-weights-to-data.ipynb`
-This notebook attaches populates the `weight` field in the `data_model_output.csv` file generated in step 1 using the `weights_only_file` generated in step 2.
 
-### 4. `/notebooks/04-create-variable-summaries.ipynb`
+### 3. `/notebooks/03-merge-weights-to-data.ipynb`
+This notebook attaches populates the `weight` field in the `data_model_output.csv` file generated in step 1 using the `weights_only_file` generated in step 2. This step should be run only after generating/updating all weights_only files using all the controls in `02-survey-expansion.Rmd`.
+
+### 4. `notebooks/04-filter-data-model-complete-records.ipynb`
+
+The `data_model_output.csv` is a fairly large file, and can be overwhelming to look at. This notebook creates a cleaner version, by eliminating invalid and incomplete records, and consolidating a few columns. 
+
+### 5. `/notebooks/05-create-variable-summaries.ipynb`
 This notebook creates lightly formatted variable summaries in Microsoft Word format. It joins the data model output from step 1 with the weights generated in step 2. The summaries currently use the departing only set of weights. 
 
-### 5. `/notebooks/05-mode-summaries-by-date.ipynb`
+### 6. `/notebooks/06-mode-summaries-by-date.ipynb`
 This is a utility notebook used for doing *ad hoc* investigation of mode choice outcomes across the survey period. It is not part of the core data processing workflow.
 
-### 6. `/notebooks/06-compare-pilot-and-original.ipynb`
+### 7. `/notebooks/07-compare-pilot-and-original.ipynb`
 This is a utility notebook used to compare the outcomes from the pilot phase of the survey and the non-pilot phase of the survey. 
 
-### 7. `/notebooks/07-create-zonal-distribution-summaries.ipynb`
+### 8. `/notebooks/08-create-zonal-distribution-summaries.ipynb`
 This notebooks generates the distribution of resident passengers by PMSA and Municipal Zones. It generates 4 summaries, number of travelers and travel parties, weighted and unweighted for each zonal system and saves it as an excel file. See `/reports/zonal_distribution_resident_passengers.xlsx`.
+This notebook also generates maps using shapefiles of PMSA and Municipal Zones and plotting the trip origins for resident departing passengers (or destinations for resident arriving passengers).
 
-### 8. `/notebooks/08-make-zonal-distribution-maps.ipynb`
-This notebooks generates maps using shapefiles of PMSA and Municipal Zones and plotting the trip origins for resident departing passengers (or destinations for resident arriving passengers).
-
+### 9. `/notebooks/09-flight-time-of-day-comparisons.ipynb`
+This notebook creates a comparison between the observed and survey flight departure times. The summaries use one of the weights to calculate the number of seats associated with a departure time. The summary is then fed to the Tableau notebook `09-flight-time-of-day-comparisons.twb` The chart shows that the distributions are different, especially for terminal one, motivating additional expansion controls for flight departure time.
 
 ### 10. `/notebooks/10-make-excel-data-dictionary-from-data-model.ipynb`
 The data model can be examined and queried via the [API documentation](https://sandag.github.io/Survey_Airport/index.html). For many users, this will be the preferred way to examine variable definitions and response options. Others may prefer a more conventional spreadsheet. This script creates a Microsoft Excel spreadsheet from the data model. This allows users to examine a data dictionary in Excel, while maintaining a single source of truth (the data model). See `/reports/data_dictionary.xlsx`. 
@@ -131,4 +136,35 @@ Users may also want to view the data dictionary as a Microsoft Word file. Having
 
 ### 12. `/notebooks/12-make-word-document-from-excel-questionnaire.ipynb`
 There is no perfect way to archive the survey instrument, as its a web-based instrument with skip logic. Screenshots of the questionnairre have been stored. In this script, an Excel version of the questionnaire is rendered as a Word document for easier review. 
+
+### 13. `notebooks/13-compare-thanksgiving-week-records.ipynb`
+This notebook draws various comparisons between `resident_visitor_purpose` across various days of the thanksgiving week and rest of the weeks. Significant differences were found, and hence records captured during this week were dropped from the expansion. 
+
+### 14. `notebooks/14-make-origin-destination-map`
+This notebook generates a map of origin and destination trip ends in the reports/maps/ directory. The map is in html format and can be segmented by resident/visitors and transit/non-transit. The map is also not included in github.
+
+
+### 15. `notebooks/15-compare-sas-and-intercept-data.ipynb`
+There could be a difference between the characteristics of respondents between the self-administered and intercept survey. This notebook compares the distribution of some key variables from both these surveys.
+
+### 16. `notebooks/16-calculate-walking-distance.ipynb`
+This notebooks calculates the walking (and other access mode distances) for transit riders. This is done to verify the validity of the location fields, and detect certain outliers - and declare them invalid.
+
+### 17. `notebooks/17-business-vs-non-business-logic.csv`
+The flight purpose asked in the survey has multiple categories, e.g., `BUSINESS`, `COMBINATION_BUSINESS_LEISURE`, `LEISURE`, `COMMUTE` and `OTHER`. However, the ABM expects the purpose to be either BUSINESS or NON_BUSINESS. This notebook explores some possibilities of using fields like `reimbursement` and `flight_purpose` to classify if a trip is BUSINESS or NON_BUSINESS.
+
+### 18. `notebooks/18-compare_income_terminals.ipynb`
+  
+  The income distributions of passengers from terminal 1 vs terminal 2 could be different (because of difference in airlines). This notebook investigates that. No significant difference was found between the two distributions.
+
+
+
+### 19. `notebooks/make-tall-data-for-select-tableau-summaries.ipynb`
+This notebook creates a tall version of the data to make it better formatted for Tableau, by allowing selection of summaries.
+
+
+
+
+
+
 
