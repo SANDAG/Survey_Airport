@@ -812,10 +812,9 @@ class Respondent(PydanticModel):
         """
 
         thanksgiving_start = pd.Timestamp('2024-11-25')  # Monday
-        thanksgiving_end = pd.Timestamp('2024-12-01')    # Sunday
         if cls.date_completed is None or pd.isna(cls.date_completed):
             return False  # or handle as needed
-        if thanksgiving_start <= cls.date_completed <= thanksgiving_end:
+        if thanksgiving_start <= cls.date_completed:
             return True
         else:
             return False
@@ -948,6 +947,20 @@ class Respondent(PydanticModel):
     )
     """
     Pseudo MSA of home address of the Resident
+    """
+
+    number_of_travel_companions: NoneOrNanString[e.PartySize] = Field(
+        ..., description = "Number of people flying with the respondent (count excludes the respondent)"
+    )
+    """
+    Number of people flying with the respondent (count excludes the respondent)
+    """
+
+    party_size_flight: NoneOrNan[int] = Field(
+        ..., description = "Size of the travel party"
+    )
+    """
+    Size of the travel party
     """
  #Add new here
     # home_location_address: NoneOrNanString[str] =  Field(
@@ -1893,21 +1906,6 @@ class AirPassenger(Respondent):
     """
     Number of nights the respondent will be visiting/away
     """
-
-    number_of_travel_companions: NoneOrNanString[e.PartySize] = Field(
-        ..., description = "Number of people flying with the respondent (count excludes the respondent)"
-    )
-    """
-    Number of people flying with the respondent (count excludes the respondent)
-    """
-
-    party_size_flight: NoneOrNan[int] = Field(
-        ..., description = "Size of the travel party"
-    )
-    """
-    Size of the travel party
-    """
-
 
     party_size_ground_access_same: NoneOrNanString[bool] = Field(
         ..., description = "Whether flying party all traveled to airport together"
