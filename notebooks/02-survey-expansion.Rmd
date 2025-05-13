@@ -31,9 +31,9 @@ interim_dir <- "../data/interim/"
 output_dir <- "../data/interim/"
 
 #config_file <- paste0(interim_dir, "expansion_config_departing_non_sas_only.yaml")
-#config_file <- paste0(interim_dir, "expansion_config_departing_only.yaml")
+config_file <- paste0(interim_dir, "expansion_config_departing_only.yaml")
 #config_file <- paste0(interim_dir, "expansion_config_departing_and_arriving.yaml")
-config_file <- paste0(interim_dir, "expansion_config_departing_only_with_time_of_day.yaml")
+#config_file <- paste0(interim_dir, "expansion_config_departing_only_with_time_of_day.yaml")
 
 
 script_config <- yaml.load_file(config_file)
