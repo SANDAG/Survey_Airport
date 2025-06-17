@@ -10,8 +10,9 @@ output:
   weights_only_file: "survey_weights_only_departing_only.csv"
 
 parameters:
-  max_iteration: 50 
+  max_iteration: 50
   scaling_factor_low : 100
   scaling_factor_high : 100
   departing_only: TRUE
   non_sas_only: FALSE
+  model_respondents: FALSE

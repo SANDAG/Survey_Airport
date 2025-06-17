@@ -40,18 +40,18 @@ NoneOrNanString = Annotated[Optional[T], BeforeValidator(coerce_nan_string_to_no
 class SkipLogicValidator:
     def __init__(self, skip_logic_csv):
         self.rules = pd.read_csv(skip_logic_csv)
-    
+
     def get_rules_for_class(self, class_name):
         """Filter skip logic rules for a specific class."""
         return self.rules[self.rules['class'] == class_name]
-    
+
     def validate(self, class_name, data):
         """Validate data using skip logic rules for a specific class."""
         errors = []
         severity_levels = {"Non-Critical" : 0, "Critical": 0}  # Track severity levels
-        
+
         rules = self.get_rules_for_class(class_name)
-        
+
         for _, rule in rules.iterrows():
             # Extract rule details
             condition_variable = rule['condition_variable']
@@ -60,7 +60,7 @@ class SkipLogicValidator:
             check_variables = rule['check_variables'].split(',')
             check_values = str(rule['check_values']).split(',') if pd.notna(rule['check_values']) else []
             severity = rule['severity']
-            
+
             # Perform validation based on check_type
             if check_type == "critical":
                 # Check fields directly for missing values
@@ -74,16 +74,16 @@ class SkipLogicValidator:
                     if not self.perform_check(data, check_type, check_variables, check_values):
                         errors.append(f"{', '.join(check_variables)}: {severity}")
                         severity_levels[severity] += 1
-                        
+
             elif check_type == "value":
                 # Perform a value check even if no condition_variable is given
                 if not condition_variable or (condition_variable in data and str(data[condition_variable]) in condition_values):
                     if not self.perform_check(data, check_type, check_variables, check_values):
                         errors.append(f"{', '.join(check_variables)}: {severity}")
                         severity_levels[severity] += 1
-        
+
         return errors, severity_levels, len(errors)
-    
+
     def perform_critical_check(self, data, check_variables):
         """
         Check if any of the critical fields are missing.
@@ -95,7 +95,7 @@ class SkipLogicValidator:
                 print(f"Critical check failed for variable: {var}")
                 return True  # A missing field causes the critical check to fail
         return False  # All fields are present
-    
+
     def perform_check(self, data, check_type, check_variables, check_values):
         """Perform the validation check based on the check_type."""
         if check_type == "missing":
@@ -108,7 +108,7 @@ class SkipLogicValidator:
 
 
 
-skip_logic_validator = SkipLogicValidator("../data/processed/skip_logic.csv")
+skip_logic_validator = SkipLogicValidator("../../data/processed/skip_logic.csv")
 
 
 class PydanticModel(BaseModel):
@@ -146,7 +146,7 @@ class PydanticModel(BaseModel):
     def check_validation_of_numeric_value(cls, values):
         # List of fields to validate
         fields_to_check = ['taxi_fhv_fare', 'taxi_fhv_wait', 'parking_cost']
-        
+
         for field in fields_to_check:
             value = values.get(field)
             if isinstance(value, datetime):
@@ -253,7 +253,7 @@ class Trip(PydanticModel):
     """
     Pseudo MSA of the origin address for the trip to the airport
     """
-    
+
     destination_activity_type: NoneOrNanString[e.ActivityType] = Field(
         ...,
         description="Activity type at the destination of the trip from the airport",
@@ -359,7 +359,7 @@ class Trip(PydanticModel):
     """
     Name of the other Main Mode to/from airport.
     """
-    
+
     main_mode_grouped: NoneOrNanString[e.TravelModeGrouped] = Field(
         ..., description = "Grouped Main Mode to/from airport")
     """
@@ -449,7 +449,7 @@ class Trip(PydanticModel):
     """
     Number of transit transfers made by the respondent.
     """
-    
+
     access_mode: NoneOrNanString[e.TravelMode] = Field(
         ..., description = "Access mode to first transit vehicle for inbound trip to the airport"
     )
@@ -489,14 +489,14 @@ class Trip(PydanticModel):
         ..., description = "Name of respondent's parking location. "
     )
     """
-    Name of respondent's parking location. 
+    Name of respondent's parking location.
     """
 
     parking_location_other: NoneOrNanString[str] = Field(
         ..., description = "Name of respondent's (other) parking location. "
     )
     """
-    Name of respondent's (other) parking location. 
+    Name of respondent's (other) parking location.
     """
 
     parking_cost: NoneOrNanString[Union[str,float]] = Field(
@@ -519,7 +519,7 @@ class Trip(PydanticModel):
             numeric_value = re.findall(r"[-+]?\d*\.?\d+|\d+", cls.taxi_fhv_fare)
             return numeric_value[0] if numeric_value else None
         return cls.taxi_fhv_fare
-        
+
     @computed_field(
         return_type = float,
         description = "Numeric value of the taxi Wait Time",
@@ -548,12 +548,12 @@ class Trip(PydanticModel):
             return numeric_value[0] if numeric_value else None
         return cls.parking_cost
 
-    
+
     # @model_validator(mode="before")
     # def convert_datetime(cls, values):
     #     # List of fields to validate
     #     fields_to_check = ['taxi_fhv_fare', 'taxi_fhv_wait', 'parking_cost']
-        
+
     #     for field in fields_to_check:
     #         value = values.get(field)
     #         if isinstance(value, datetime):
@@ -716,19 +716,19 @@ class Trip(PydanticModel):
     Longitude of the stop where respondent boarded the main transit mode
     """
 
-    
+
     @model_validator(mode="after")
     def validate_record(cls, values):
-        
+
         errors, severity_levels, num_errors = skip_logic_validator.validate("Trip", values.dict())
         # Update validation fields
         #values.valid_record = len(errors) == 0
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -736,7 +736,7 @@ class Trip(PydanticModel):
         elif severity_levels["Non-Critical"] > 0:
             return "Non-Critical"
         return "None"
-    pass 
+    pass
 
 class Respondent(PydanticModel):
     """
@@ -755,7 +755,7 @@ class Respondent(PydanticModel):
     """
     True if the survey was self-administered by the respondent.
     """
-    
+
     respondentid: Union[int,str] = Field(
         ..., description="Unique identifier for the respondent")
     """
@@ -818,7 +818,7 @@ class Respondent(PydanticModel):
             return True
         else:
             return False
-        
+
 
 
     weight: float = Field(
@@ -857,7 +857,7 @@ class Respondent(PydanticModel):
     Weights corresponding to only departing passengers expansion including time-of-day controls (no synthetic/arriving passengers)
     """
 
-    
+
     interview_location: NoneOrNan[e.InterviewLocation] = Field(
         ..., description = "Location where respondent was intercepted")
     """
@@ -1046,7 +1046,7 @@ class Respondent(PydanticModel):
         description="If the respondent enters a race/ethnicicy not listed above, this field will be populated",
     )
     """
-    If the respondent enters a race/ethnicity not listed above, this field will be populated. 
+    If the respondent enters a race/ethnicity not listed above, this field will be populated.
     """
 
     race_list: NoneOrNanString[str] = Field(
@@ -1239,7 +1239,7 @@ class Respondent(PydanticModel):
     )
     """True if the cost of using transit at another airport was a positive factor."""
 
-    sp_other_airport_frequency_of_service: NoneOrNanString[bool] = Field(   
+    sp_other_airport_frequency_of_service: NoneOrNanString[bool] = Field(
         ..., description="True if the frequency of service at another airport was a positive factor."
     )
     """
@@ -1354,7 +1354,7 @@ class Employee(Respondent):
     # """
     # Longitude and Latitude of building where the employee starts their shift.
     # """
-    
+
     trip_start_time: NoneOrNan[e.DepartTime] = Field(
         ..., description="Start time of the trip"
     )
@@ -1488,126 +1488,126 @@ class Employee(Respondent):
     """
     True if the employee used Taxi as a mode to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_uber_lyft: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used Uber or Lyft as a mode to commute to the airport in the past 30 days"
     )
     """
     True if the employee used Uber or Lyft as a mode to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_car_black: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used a black car service as a mode to commute to the airport in the past 30 days"
     )
     """
     True if the employee used a black car service as a mode to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_picked_by_family_friend: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee was picked up by a family member or friend to commute to the airport in the past 30 days"
     )
     """
     True if the employee was picked up by a family member or friend to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_parked_vehicle_and_drive_alone: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee drove alone and parked their vehicle while commuting to the airport in the past 30 days"
     )
     """
     True if the employee drove alone and parked their vehicle while commuting to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_parked_vehicle_and_drive_with_others: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee drove with others and parked their vehicle while commuting to the airport in the past 30 days"
     )
     """
     True if the employee drove with others and parked their vehicle while commuting to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_parked_vehicle_and_ride_with_other_travelers: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee rode with other travelers and parked their vehicle while commuting to the airport in the past 30 days"
     )
     """
     True if the employee rode with other travelers and parked their vehicle while commuting to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_mts_route_992: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used MTS Route 992 to commute to the airport in the past 30 days"
     )
     """
     True if the employee used MTS Route 992 to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_airport_flyer_shuttle: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used the Airport Flyer Shuttle to commute to the airport in the past 30 days"
     )
     """
     True if the employee used the Airport Flyer Shuttle to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_other_public_transit: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used other public transit services to commute to the airport in the past 30 days"
     )
     """
     True if the employee used other public transit services to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_other_shared_van: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used another type of shared van service to commute to the airport in the past 30 days"
     )
     """
     True if the employee used another type of shared van service to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_walk: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee walked as a mode to commute to the airport in the past 30 days"
     )
     """
     True if the employee walked as a mode to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_wheelchair: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used a wheelchair to commute to the airport in the past 30 days"
     )
     """
     True if the employee used a wheelchair to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_bicycle_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used an electric bicycle through a bikeshare service to commute to the airport in the past 30 days"
     )
     """
     True if the employee used an electric bicycle through a bikeshare service to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_bicycle_non_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used a non-electric bicycle through a bikeshare service to commute to the airport in the past 30 days"
     )
     """
     True if the employee used a non-electric bicycle through a bikeshare service to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_bicycle_personal_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used their personal electric bicycle to commute to the airport in the past 30 days"
     )
     """
     True if the employee used their personal electric bicycle to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_bicycle_personal_non_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used their personal non-electric bicycle to commute to the airport in the past 30 days"
     )
     """
     True if the employee used their personal non-electric bicycle to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_e_scooter_shared: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used a shared e-scooter to commute to the airport in the past 30 days"
     )
     """
     True if the employee used a shared e-scooter to commute to the airport in the past 30 days.
     """
-    
+
     alt_commute_mode_e_scooter_personal: NoneOrNanString[bool] = Field(
         ..., description = "True if the employee used their personal e-scooter to commute to the airport in the past 30 days"
     )
@@ -1686,7 +1686,7 @@ class Employee(Respondent):
     #         if any(field in critical_fields for field in null_fields):
     #             values.validation_severity = "Critical"
     #     return values
-    
+
     @model_validator(mode="after")
     def validate_record(cls, values):
         # Validate using SkipLogicValidator
@@ -1696,9 +1696,9 @@ class Employee(Respondent):
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -1735,7 +1735,7 @@ class AirPassenger(Respondent):
     """
     True if respondent lives outside San Diego Region and is going home by ground transportation
     """
-    
+
     passenger_segment: NoneOrNan[e.PassengerSegment] = Field(
         ..., description="Segment of the air passenger: (Resident/Visitor and Arriving/Departing)"
     )
@@ -1743,7 +1743,7 @@ class AirPassenger(Respondent):
     Segment of the air passenger: (Resident/Visitor and Arriving/Departing)
     """
 
-    qualified_visitor: NoneOrNan[bool] = Field( 
+    qualified_visitor: NoneOrNan[bool] = Field(
         ..., description = "True if the respondent is a qualified visitor")
     """
     True if the respondent is a qualified visitor.
@@ -1791,7 +1791,7 @@ class AirPassenger(Respondent):
     # def validate_airport(cls, values):
     #     # List of fields to validate
     #     fields_to_check = ['previous_or_next_airport']
-        
+
     #     for field in fields_to_check:
     #         value = values.get(field)
     #         if not isinstance(value, str):
@@ -1843,7 +1843,7 @@ class AirPassenger(Respondent):
             return e.Terminal.TERMINAL_1
         if cls.interview_location == e.InterviewLocation.TERMINAL_2:
             return e.Terminal.TERMINAL_2
-        
+
         #Deriving using Airline if location is not a terminal
         if cls.airline in range(1,14):
             return e.Terminal.TERMINAL_2
@@ -1990,139 +1990,139 @@ class AirPassenger(Respondent):
     """
     True if the respondent used Uber or Lyft as a mode for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_car_black: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a black car or luxury service for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a black car or luxury service for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_dropped_off_by_family_friend: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent was dropped off by a family member or friend for their trip to SDIA in the last 12 months")
     """
     True if the respondent was dropped off by a family member or friend for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_drove_alone_and_parked: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent drove alone and parked at SDIA in the last 12 months")
     """
     True if the respondent drove alone and parked at SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_drove_with_others_and_parked: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent drove with others and parked at SDIA in the last 12 months")
     """
     True if the respondent drove with others and parked at SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_rode_with_other_travelers_and_parked: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent rode with other travelers and parked at SDIA in the last 12 months")
     """
     True if the respondent rode with other travelers and parked at SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_mts992: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used MTS992 for their trip to SDIA in the last 12 months")
     """
     True if the respondent used MTS992 for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_flyer_shuttle: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used the Flyer Shuttle for their trip to SDIA in the last 12 months")
     """
     True if the respondent used the Flyer Shuttle for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_other_public_transit: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used another form of public transit for their trip to SDIA in the last 12 months")
     """
     True if the respondent used another form of public transit for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_rental_car_dropped_off: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a rental car and was dropped off at SDIA in the last 12 months")
     """
     True if the respondent used a rental car and was dropped off at SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_rental_car_parked: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent parked a rental car at SDIA in the last 12 months")
     """
     True if the respondent parked a rental car at SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_chartered_tour_bus: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a chartered tour bus for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a chartered tour bus for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_hotel_shuttle_van: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a hotel shuttle van for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a hotel shuttle van for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_employee_shuttle: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used an employee shuttle for their trip to SDIA in the last 12 months")
     """
     True if the respondent used an employee shuttle for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_other_shared_van: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used another type of shared van service for their trip to SDIA in the last 12 months")
     """
     True if the respondent used another type of shared van service for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_walk: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent walked to SDIA in the last 12 months")
     """
     True if the respondent walked to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_wheelchair: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a wheelchair for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a wheelchair for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_bicycle_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used an electric bikeshare for their trip to SDIA in the last 12 months")
     """
     True if the respondent used an electric bikeshare for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_bicycle_non_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a non-electric bikeshare for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a non-electric bikeshare for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_bicycle_personal_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a personal electric bicycle for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a personal electric bicycle for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_bicycle_personal_non_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a personal non-electric bicycle for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a personal non-electric bicycle for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_e_scooter_shared: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a shared electric scooter for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a shared electric scooter for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_e_scooter_personal: NoneOrNanString[bool] = Field(
         ..., description  = "True if the respondent used a personal electric scooter for their trip to SDIA in the last 12 months")
     """
     True if the respondent used a personal electric scooter for their trip to SDIA in the last 12 months
     """
-    
+
     sdia_accessmode_split_other: NoneOrNanString[str] = Field(
         ..., description = "Other mode the respondent used for their trip to SDIA in the last 12 months"
     )
@@ -2163,7 +2163,7 @@ class AirPassenger(Respondent):
     )
     """
     True if the respondent did not use transit because it is too complicated.
-    """ 
+    """
 
     reasons_no_transit_dont_know_how: NoneOrNanString[bool] = Field(
         ..., description = "True if the respondent did not use transit because they don't know how"
@@ -2282,8 +2282,8 @@ class AirPassenger(Respondent):
     )
     """
     Other reason why the respondent did not use transit.
-    """ 
-    
+    """
+
     reasons_no_transit_list: NoneOrNanString[str] = Field(
         ..., description = "List of reasons why the respondent did not use transit"
     )
@@ -2325,8 +2325,8 @@ class AirPassenger(Respondent):
     """
     Name of other airport accessed by transit.
     """
-    
-    pass 
+
+    pass
 
 
 class ArrivingAirPassenger(AirPassenger):
@@ -2345,7 +2345,7 @@ class ArrivingAirPassenger(AirPassenger):
         """
         if cls.passenger_type == e.PassengerType.ARRIVING:
             return cls.previous_or_next_airport
-    
+
     @computed_field(
         return_type = bool,
         description = "True if the previous flight origin was original and not a layover",
@@ -2356,7 +2356,7 @@ class ArrivingAirPassenger(AirPassenger):
         True if the previous flight origin was original and not a layover
         """
         return cls.is_direct_flight
-    
+
     flight_arrival_time: NoneOrNan[e.DepartTime] = Field(
         ..., description = "Time of flight arrival"
     )
@@ -2375,7 +2375,7 @@ class DepartingAirPassenger(AirPassenger):
     """
     Data model for a departing air passenger. It includes attributes specific to departing air passengers.
     """
-            
+
     @computed_field(
         return_type = str,
         description = "Next Flight Destination for a departing passenger",
@@ -2386,7 +2386,7 @@ class DepartingAirPassenger(AirPassenger):
         Next Flight Destination for a departing passenger
         """
         return cls.previous_or_next_airport
-    
+
     @computed_field(
         return_type = bool,
         description = "True if the next flight destination is final and not a layover",
@@ -2398,7 +2398,7 @@ class DepartingAirPassenger(AirPassenger):
         """
         if cls.passenger_type == e.PassengerType.DEPARTING:
             return cls.is_direct_flight
-        
+
     final_flight_destination: NoneOrNanString[str] = Field(
         ..., description = "Final destination of the flight for departing passengers"
     )
@@ -2426,12 +2426,12 @@ class DepartingAirPassenger(AirPassenger):
     """
     Arrival time of the trip.
     """
-    
+
 class Resident(Respondent):
     """
     Data Model for a Air Passenger who is a resident of the San Deigo Region. It includes attributes specific to a Resident.
     """
-    
+
     nights_away: NoneOrNan[e.TravelDuration] = Field(
         ..., description = "Number of nights the departing air passengers will be away"
     )
@@ -2472,14 +2472,14 @@ class Visitor(Respondent):
     """
     Type of activity (not listed) that the respondent conducted at the convention center.
     """
-    
+
     nights_visited: NoneOrNan[e.TravelDuration] = Field(
         ..., description = "Number of nights the arriving air passengers will be in the San Diego Region"
     )
     """
     Number of nights the arriving air passengers will be in the San Diego Region.
     """
-    
+
     general_use_transit_visitor_home: NoneOrNan[e.TransitUseFrequency] = Field(
         ..., description = "General transit use frequency by visitors of San Diego region when home"
     )
@@ -2493,7 +2493,7 @@ class Visitor(Respondent):
 
 class DepartingPassengerResident(DepartingAirPassenger, Resident):
     """
-    Data Model for a departing air passenger who is a resident of the San Deigo Region. 
+    Data Model for a departing air passenger who is a resident of the San Deigo Region.
     """
     car_available: NoneOrNanString[e.CarAvailability] = Field(
         ..., description = "Status of car availability for the trip to the airport"
@@ -2508,7 +2508,7 @@ class DepartingPassengerResident(DepartingAirPassenger, Resident):
     """
     Status of car availability (other than listed) for the trip to the airport
     """
-    
+
     reverse_mode_predicted: NoneOrNan[e.TravelMode] = Field(
         ..., description = "Mode that will be used in the reverse direction"
     )
@@ -2538,9 +2538,9 @@ class DepartingPassengerResident(DepartingAirPassenger, Resident):
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -2548,13 +2548,13 @@ class DepartingPassengerResident(DepartingAirPassenger, Resident):
         elif severity_levels["Non-Critical"] > 0:
             return "Non-Critical"
         return "None"
-    pass 
+    pass
 
 
 class DepartingPassengerVisitor(DepartingAirPassenger, Visitor):
 
     """
-    Data Model for a departing air passenger who is a resident of the San Deigo Region. 
+    Data Model for a departing air passenger who is a resident of the San Deigo Region.
     """
 
     reverse_mode: NoneOrNan[e.TravelMode] = Field(
@@ -2588,168 +2588,168 @@ class DepartingPassengerVisitor(DepartingAirPassenger, Visitor):
     """
     True if the visitor used Taxi as a mode during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_uber_lyft: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used Uber or Lyft as a mode during their visit to the San Diego Region"
     )
     """
     True if the visitor used Uber or Lyft as a mode during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_car_black: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a black car service as a mode during their visit to the San Diego Region"
     )
     """
     True if the visitor used a black car service as a mode during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_dropped_off_by_family_friend: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor was dropped off by a family member or friend during their visit to the San Diego Region"
     )
     """
     True if the visitor was dropped off by a family member or friend during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_drove_alone_and_parked: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor drove alone and parked during their visit to the San Diego Region"
     )
     """
     True if the visitor drove alone and parked during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_drove_with_others_and_parked: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor drove with others and parked during their visit to the San Diego Region"
     )
     """
     True if the visitor drove with others and parked during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_rode_with_other_travelers_and_parked: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor rode with other travelers and parked during their visit to the San Diego Region"
     )
     """
     True if the visitor rode with other travelers and parked during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_coaster: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used the Coaster train during their visit to the San Diego Region"
     )
     """
     True if the visitor used the Coaster train during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_mts_red_trolley: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used the MTS Red Trolley during their visit to the San Diego Region"
     )
     """
     True if the visitor used the MTS Red Trolley during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_other_public_bus: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used other public bus services during their visit to the San Diego Region"
     )
     """
     True if the visitor used other public bus services during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_other_public_transit: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used other public transit services during their visit to the San Diego Region"
     )
     """
     True if the visitor used other public transit services during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_rental_car_dropped_off: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a rental car and was dropped off during their visit to the San Diego Region"
     )
     """
     True if the visitor used a rental car and was dropped off during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_rental_car_parked: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a rental car and parked during their visit to the San Diego Region"
     )
     """
     True if the visitor used a rental car and parked during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_chartered_tour_bus: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a chartered tour bus during their visit to the San Diego Region"
     )
     """
     True if the visitor used a chartered tour bus during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_hotel_shuttle_van: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a hotel shuttle or van during their visit to the San Diego Region"
     )
     """
     True if the visitor used a hotel shuttle or van during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_employee_shuttle: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used an employee shuttle during their visit to the San Diego Region"
     )
     """
     True if the visitor used an employee shuttle during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_other_shared_van: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used another type of shared van service during their visit to the San Diego Region"
     )
     """
     True if the visitor used another type of shared van service during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_walk: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor walked as a mode during their visit to the San Diego Region"
     )
     """
     True if the visitor walked as a mode during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_wheelchair: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a wheelchair during their visit to the San Diego Region"
     )
     """
     True if the visitor used a wheelchair during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_bicycle_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used an electric bicycle through a bikeshare service during their visit to the San Diego Region"
     )
     """
     True if the visitor used an electric bicycle through a bikeshare service during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_bicycle_non_electric_bikeshare: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a non-electric bicycle through a bikeshare service during their visit to the San Diego Region"
     )
     """
     True if the visitor used a non-electric bicycle through a bikeshare service during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_bicycle_personal_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used their personal electric bicycle during their visit to the San Diego Region"
     )
     """
     True if the visitor used their personal electric bicycle during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_bicycle_personal_non_electric_bicycle: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used their personal non-electric bicycle during their visit to the San Diego Region"
     )
     """
     True if the visitor used their personal non-electric bicycle during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_e_scooter_shared: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used a shared e-scooter during their visit to the San Diego Region"
     )
     """
     True if the visitor used a shared e-scooter during their visit to the San Diego Region.
     """
-    
+
     general_modes_used_visitor_e_scooter_personal: NoneOrNanString[bool] = Field(
         ..., description = "True if the visitor used their personal e-scooter during their visit to the San Diego Region"
     )
@@ -2780,9 +2780,9 @@ class DepartingPassengerVisitor(DepartingAirPassenger, Visitor):
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -2795,9 +2795,9 @@ class DepartingPassengerVisitor(DepartingAirPassenger, Visitor):
 
 class ArrivingPassengerResident(ArrivingAirPassenger, Resident):
     """
-    Data Model for a departing air passenger who is a resident of the San Deigo Region. 
+    Data Model for a departing air passenger who is a resident of the San Deigo Region.
     """
-    
+
     reverse_mode: NoneOrNan[e.TravelMode] = Field(
         ..., description = "Mode that was used in the reverse direction"
     )
@@ -2814,9 +2814,9 @@ class ArrivingPassengerResident(ArrivingAirPassenger, Resident):
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -2824,13 +2824,13 @@ class ArrivingPassengerResident(ArrivingAirPassenger, Resident):
         elif severity_levels["Non-Critical"] > 0:
             return "Non-Critical"
         return "None"
-    
+
     pass
 
 
 class ArrivingPassengerVisitor(ArrivingAirPassenger, Visitor):
     """
-    Data Model for an arriving air passenger who is a visitor of the San Deigo Region. 
+    Data Model for an arriving air passenger who is a visitor of the San Deigo Region.
     """
 
     reverse_mode_predicted: NoneOrNan[e.TravelMode] = Field(
@@ -2867,15 +2867,15 @@ class ArrivingPassengerVisitor(ArrivingAirPassenger, Visitor):
     def validate_record(cls, values):
         # Validate using SkipLogicValidator
         errors, severity_levels, num_errors = skip_logic_validator.validate("ArrivingPassengerVisitor", values.dict())
-        
+
         # Update validation fields
         #values.valid_record = len(errors) == 0
         values.validation_error = errors
         values.validation_severity = cls.determine_severity(severity_levels)
         values.validation_num_errors = num_errors
-        
+
         return values
-    
+
     @staticmethod
     def determine_severity(severity_levels):
         if severity_levels["Critical"] > 0:
@@ -2883,5 +2883,5 @@ class ArrivingPassengerVisitor(ArrivingAirPassenger, Visitor):
         elif severity_levels["Non-Critical"] > 0:
             return "Non-Critical"
         return "None"
-    
+
     pass
