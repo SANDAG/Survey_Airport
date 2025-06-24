@@ -169,10 +169,11 @@ data/interim/survey_expanded_v3_all.csv
 data/interim/survey_expanded_v2_depart.csv
 data/interim/survey_expanded_v3_depart.csv
 data/interim/survey_expanded_*
-data/processed/data_model_output.csv
-data/processed/data_model_output_select_tall_summaries.csv
+data/processed/atc_travel_survey_final_data.csv
+data/processed/data_model_*
 data/processed/clean_data_model_output.csv
 data/processed/failed_records.csv
+data/processed/respondents_to_not_model.csv
 .Rproj.user
 data/external/etc/od_20241015_sandag_airport_pilot_4.xlsx
 data/external/etc/od_20241121_sandag_airport_draftfinal.xlsx
