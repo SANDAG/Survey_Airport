@@ -170,6 +170,7 @@ data/interim/survey_expanded_v3_all.csv
 data/interim/survey_expanded_v2_depart.csv
 data/interim/survey_expanded_v3_depart.csv
 data/interim/survey_expanded_*
+data/processed/access_mode_walk_distance_outliers.csv
 data/processed/atc_travel_survey_final_data.csv
 data/processed/data_model_*
 data/processed/clean_data_model_output.csv
